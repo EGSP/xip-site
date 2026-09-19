@@ -1,0 +1,17 @@
+---
+import { facts } from '../data/site';
+---
+
+<div class="facts">
+    <div class="container facts__grid">
+        {
+            facts.map((fact, index) => (
+                <div class="fact">
+                    <span class="fact__index">{String(index + 1).padStart(2, '0')}</span>
+                    <span class="fact__title">{fact.title}</span>
+                    <p class="fact__text">{fact.text}</p>
+                </div>
+            ))
+        }
+    </div>
+</div>

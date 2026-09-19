@@ -1,0 +1,111 @@
+---
+/*
+ * Схема трассировки одного хода: шаги, обращения к модели и вызовы инструментов на общей шкале
+ * времени. Иллюстрация, а не данные: длительности подобраны так, чтобы обращение к модели
+ * занимало почти весь шаг, а инструменты — доли секунды.
+ */
+type Kind = 'turn' | 'step' | 'model' | 'tool';
+
+const rows: { label: string; depth: number; kind: Kind; spans: [number, number][] }[] = [
+    { label: 'ход', depth: 0, kind: 'turn', spans: [[0, 100]] },
+    { label: 'шаг 1', depth: 1, kind: 'step', spans: [[0, 34]] },
+    { label: 'модель', depth: 2, kind: 'model', spans: [[0.5, 31.5]] },
+    { label: 'инструмент', depth: 2, kind: 'tool', spans: [[31.5, 33.5]] },
+    { label: 'шаг 2', depth: 1, kind: 'step', spans: [[34, 79]] },
+    { label: 'модель', depth: 2, kind: 'model', spans: [[34.5, 70.5]] },
+    { label: 'инструменты', depth: 2, kind: 'tool', spans: [[70.5, 73], [73.4, 78.5]] },
+    { label: 'шаг 3', depth: 1, kind: 'step', spans: [[79, 100]] },
+    { label: 'модель', depth: 2, kind: 'model', spans: [[79.5, 99.5]] },
+];
+
+const width = 560;
+const top = 52;
+const rowHeight = 36;
+const footer = 44;
+const height = top + rows.length * rowHeight + footer;
+const plot = { x: 172, width: 364 };
+const seconds = [0, 1, 2, 3, 4, 5, 6];
+
+const x = (percent: number) => plot.x + (plot.width * percent) / 100;
+const tickX = (second: number) => x((second / 6) * 100);
+const tickAnchor = (second: number) => (second === 0 ? 'start' : second === 6 ? 'end' : 'middle');
+---
+
+<svg
+    class="hero__art"
+    viewBox={`0 0 ${width} ${height}`}
+    role="img"
+    aria-label="Схема трассировки хода: три шага, обращения к модели и вызовы инструментов на шкале времени"
+>
+    <rect class="frame" x="0.5" y="0.5" width={width - 1} height={height - 1}></rect>
+    <text class="caption" x="16" y="26">трассировка хода</text>
+    <text class="caption" x={width - 16} y="26" text-anchor="end">3 шага · 6,0 с</text>
+    <line class="rule" x1="0" x2={width} y1="40" y2="40"></line>
+    {seconds.map((second) => <line class="grid" x1={tickX(second)} x2={tickX(second)} y1="40" y2={height - footer}></line>)}
+    {
+        rows.map((row, index) => {
+            const y = top + index * rowHeight;
+            return (
+                <g>
+                    <text class:list={['label', `label--${row.kind}`]} x={16 + row.depth * 14} y={y + 22}>
+                        {row.label}
+                    </text>
+                    {row.spans.map(([from, to]) => (
+                        <rect class:list={['bar', `bar--${row.kind}`]} x={x(from)} y={y + 12} width={Math.max(x(to) - x(from), 2)} height="12"></rect>
+                    ))}
+                </g>
+            );
+        })
+    }
+    <line class="rule" x1="0" x2={width} y1={height - footer} y2={height - footer}></line>
+    {seconds.map((second) => <text class="tick" x={tickX(second)} y={height - 17} text-anchor={tickAnchor(second)}>{`${second} с`}</text>)}
+</svg>
+
+<style>
+    .frame {
+        fill: #0d0d10;
+        stroke: var(--ant-color-border);
+    }
+
+    .rule {
+        stroke: var(--ant-color-border);
+    }
+
+    .grid {
+        stroke: var(--ant-color-fill-tertiary);
+    }
+
+    .caption,
+    .tick,
+    .label {
+        font-family: var(--ant-font-family-code);
+        font-size: 12px;
+    }
+
+    .caption,
+    .tick,
+    .label {
+        fill: var(--ant-color-text-tertiary);
+    }
+
+    .label--turn,
+    .label--step {
+        fill: var(--ant-color-text-secondary);
+    }
+
+    .bar--turn {
+        fill: #5b5b66;
+    }
+
+    .bar--step {
+        fill: #3a3a42;
+    }
+
+    .bar--model {
+        fill: var(--ant-color-primary);
+    }
+
+    .bar--tool {
+        fill: #e4e4e7;
+    }
+</style>

@@ -1,0 +1,96 @@
+---
+import { sections } from '../data/site';
+
+const items = [{ id: 'top', label: 'Обзор' }, ...sections];
+---
+
+<nav class="dots" aria-label="Положение на странице">
+    {
+        items.map((item) => (
+            <a class="dots__item" href={`#${item.id}`} data-target={item.id}>
+                <span class="dots__label">{item.label}</span>
+            </a>
+        ))
+    }
+</nav>
+
+<script>
+    // Отмечает раздел, который пересекает середину окна.
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('.dots__item')];
+    const byId = new Map(links.map((link) => [link.dataset.target, link]));
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            for (const entry of entries) {
+                if (!entry.isIntersecting) continue;
+                for (const link of links) link.classList.remove('is-active');
+                byId.get(entry.target.id)?.classList.add('is-active');
+            }
+        },
+        { rootMargin: '-50% 0px -50% 0px' },
+    );
+
+    for (const id of byId.keys()) {
+        const section = id && document.getElementById(id);
+        if (section) observer.observe(section);
+    }
+</script>
+
+<style>
+    .dots {
+        position: fixed;
+        top: 50%;
+        left: 28px;
+        z-index: 90;
+        display: none;
+        flex-direction: column;
+        gap: 14px;
+        transform: translateY(-50%);
+    }
+
+    @media (min-width: 1400px) {
+        .dots {
+            display: flex;
+        }
+    }
+
+    .dots__item {
+        position: relative;
+        display: block;
+        width: 8px;
+        height: 8px;
+        border: 1px solid var(--ant-color-text-quaternary);
+        border-radius: var(--ant-border-radius);
+        transition:
+            background-color var(--ant-motion-duration-mid),
+            border-color var(--ant-motion-duration-mid);
+    }
+
+    .dots__item:hover {
+        border-color: var(--ant-color-text-secondary);
+    }
+
+    .dots__item.is-active {
+        border-color: var(--ant-color-primary);
+        background: var(--ant-color-primary);
+    }
+
+    .dots__label {
+        position: absolute;
+        top: 50%;
+        left: 20px;
+        color: var(--ant-color-text-secondary);
+        font-family: var(--ant-font-family-code);
+        font-size: 12px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-50%);
+        transition: opacity var(--ant-motion-duration-mid);
+    }
+
+    .dots__item:hover .dots__label,
+    .dots__item:focus-visible .dots__label {
+        opacity: 1;
+    }
+</style>

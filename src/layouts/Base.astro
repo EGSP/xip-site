@@ -1,0 +1,56 @@
+---
+import '@fontsource/ibm-plex-sans/cyrillic-400.css';
+import '@fontsource/ibm-plex-sans/latin-400.css';
+import '@fontsource/ibm-plex-sans/cyrillic-500.css';
+import '@fontsource/ibm-plex-sans/latin-500.css';
+import '@fontsource/ibm-plex-sans/cyrillic-600.css';
+import '@fontsource/ibm-plex-sans/latin-600.css';
+import '@fontsource/ibm-plex-mono/cyrillic-400.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '@fontsource/ibm-plex-mono/cyrillic-500.css';
+import '@fontsource/ibm-plex-mono/latin-500.css';
+import sans400 from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-cyrillic-400-normal.woff2?url';
+import sans600 from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-cyrillic-600-normal.woff2?url';
+import 'antd/dist/reset.css';
+import '../styles/global.css';
+import { antdTheme } from '../theme/antd';
+import { renderWithAntdStyles } from '../antd/styleCache';
+import { withBase } from '../lib/url';
+
+interface Props {
+    title: string;
+    description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+// Содержимое отрисовывается до <head>: только так известно, какие стили antd ему нужны.
+const page = await renderWithAntdStyles(() => Astro.slots.render('default'));
+---
+
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonical} />
+        <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+        <meta name="theme-color" content="#09090b" />
+        <meta name="color-scheme" content="dark" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="ru_RU" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonical} />
+        <link rel="preload" href={sans400} as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href={sans600} as="font" type="font/woff2" crossorigin />
+        <meta name="generator" content={Astro.generator} />
+        <Fragment set:html={page.styles} />
+    </head>
+    <body class={antdTheme.cssVar?.key}>
+        <Fragment set:html={page.html} />
+    </body>
+</html>

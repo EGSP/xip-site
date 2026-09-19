@@ -1,0 +1,61 @@
+# Сборка сайта и публикация на GitHub Pages.
+#
+# push в main — сборка и публикация. Pull request — только проверка типов и сборка, чтобы
+# ошибка обнаружилась до слияния. Ручной запуск на main повторяет публикацию.
+name: Сайт
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Новый запуск в pull request отменяет устаревший. На main запуски идут по очереди:
+# начатая публикация не прерывается.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Сборка
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Проверка типов
+        run: npm run check
+
+      - name: Сборка
+        run: npm run build
+
+      - name: Упаковка для Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    name: Публикация
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
