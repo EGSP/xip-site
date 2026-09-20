@@ -38,7 +38,7 @@ export const antdTheme: ThemeConfig = {
         fontSizeHeading2: 44,
         fontSizeHeading3: 24,
         fontSizeHeading4: 20,
-        fontWeightStrong: 600,
+        fontWeightStrong: 700,
 
         motionDurationMid: '0.16s',
         motionDurationSlow: '0.24s',

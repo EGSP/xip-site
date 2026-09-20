@@ -5,12 +5,14 @@ import '@fontsource/ibm-plex-sans/cyrillic-500.css';
 import '@fontsource/ibm-plex-sans/latin-500.css';
 import '@fontsource/ibm-plex-sans/cyrillic-600.css';
 import '@fontsource/ibm-plex-sans/latin-600.css';
+import '@fontsource/ibm-plex-sans/cyrillic-700.css';
+import '@fontsource/ibm-plex-sans/latin-700.css';
 import '@fontsource/ibm-plex-mono/cyrillic-400.css';
 import '@fontsource/ibm-plex-mono/latin-400.css';
 import '@fontsource/ibm-plex-mono/cyrillic-500.css';
 import '@fontsource/ibm-plex-mono/latin-500.css';
 import sans400 from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-cyrillic-400-normal.woff2?url';
-import sans600 from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-cyrillic-600-normal.woff2?url';
+import sans700 from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-cyrillic-700-normal.woff2?url';
 import 'antd/dist/reset.css';
 import '../styles/global.css';
 import { antdTheme } from '../theme/antd';
@@ -46,7 +48,7 @@ const page = await renderWithAntdStyles(() => Astro.slots.render('default'));
         <meta property="og:description" content={description} />
         <meta property="og:url" content={canonical} />
         <link rel="preload" href={sans400} as="font" type="font/woff2" crossorigin />
-        <link rel="preload" href={sans600} as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href={sans700} as="font" type="font/woff2" crossorigin />
         <meta name="generator" content={Astro.generator} />
         <Fragment set:html={page.styles} />
     </head>

@@ -4,6 +4,10 @@
  *
  * Стили antd лежат в слое `antd`, а эти — вне слоёв, поэтому при совпадении свойств
  * побеждают эти независимо от специфичности селектора.
+ *
+ * Разделы не отделены линиями. Границей служат отступы и чередование тёмной и светлой
+ * подложки: раздел объявляет подложку классом `section--dark` или `section--light`, а класс
+ * переопределяет переменные темы для всего своего содержимого, включая компоненты antd.
  */
 
 :root {
@@ -45,6 +49,11 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+
+    /* Подложка раздела и цвет заголовков; значения по умолчанию — тёмные. */
+    --surface: #09090b;
+    --surface-raised: #141418;
+    --ink: #ffffff;
 }
 
 ::selection {
@@ -85,7 +94,54 @@ body {
 
 .section {
     padding: var(--section-space) 0;
-    border-top: 1px solid var(--ant-color-split);
+    background: var(--surface);
+}
+
+.section--dark {
+    --surface: #09090b;
+    --surface-raised: #141418;
+    --ink: #ffffff;
+}
+
+/*
+ * Светлый раздел: переменные темы переопределены значениями светлой палитры, поэтому их
+ * наследует и собственная разметка, и компоненты antd внутри раздела.
+ *
+ * Объявление повторено для `.xip-theme`, потому что antd объявляет весь набор переменных не
+ * только на <body>, но и на корневом элементе каждого компонента. Это объявление лежит
+ * внутри раздела и перекрыло бы объявление на самом разделе, если бы селектор его не
+ * доставал.
+ */
+.section--light,
+.section--light .xip-theme {
+    --surface: #ffffff;
+    --surface-raised: #f4f4f5;
+    --ink: #09090b;
+
+    --ant-color-text: #18181b;
+    --ant-color-text-secondary: #52525b;
+    --ant-color-text-tertiary: #71717a;
+    --ant-color-text-quaternary: #a1a1aa;
+    --ant-color-text-description: #52525b;
+    --ant-color-text-heading: #09090b;
+    --ant-color-bg-container: #ffffff;
+    --ant-color-bg-elevated: #ffffff;
+    --ant-color-border: #e4e4e7;
+    --ant-color-border-secondary: #e4e4e7;
+    --ant-color-split: #e4e4e7;
+    --ant-color-fill: rgba(9, 9, 11, 0.12);
+    --ant-color-fill-secondary: rgba(9, 9, 11, 0.08);
+    --ant-color-fill-tertiary: rgba(9, 9, 11, 0.05);
+    --ant-color-fill-quaternary: rgba(9, 9, 11, 0.03);
+    --ant-color-primary: #2d55c9;
+
+    --ant-tabs-item-color: #52525b;
+    --ant-tabs-item-hover-color: #09090b;
+    --ant-tabs-item-selected-color: #09090b;
+    --ant-tabs-item-active-color: #09090b;
+    --ant-tabs-ink-bar-color: #09090b;
+
+    color: var(--ant-color-text);
 }
 
 .section-head {
@@ -94,9 +150,9 @@ body {
 }
 
 .section-head .section-title {
-    color: #fff;
+    color: var(--ink);
     font-size: clamp(30px, 4.2vw, 44px);
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.15;
     letter-spacing: -0.02em;
 }
@@ -121,7 +177,6 @@ body {
     top: 0;
     z-index: 100;
     height: var(--header-height);
-    border-bottom: 1px solid var(--ant-color-split);
     background: rgba(9, 9, 11, 0.86);
     backdrop-filter: saturate(140%) blur(12px);
     -webkit-backdrop-filter: saturate(140%) blur(12px);
@@ -149,14 +204,8 @@ body {
 
 .brand__name {
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.02em;
-}
-
-.brand__tag {
-    margin-inline-end: 0;
-    font-family: var(--ant-font-family-code);
-    font-size: 12px;
 }
 
 .site-nav {
@@ -190,20 +239,14 @@ body {
     }
 }
 
-@media (max-width: 479px) {
-    .brand__tag {
-        display: none;
-    }
-}
-
 .mobile-nav {
     display: flex;
     flex-direction: column;
+    gap: 4px;
 }
 
 .mobile-nav a {
-    padding: 16px 0;
-    border-bottom: 1px solid var(--ant-color-split);
+    padding: 14px 0;
     color: var(--ant-color-text);
     font-size: 18px;
     text-decoration: none;
@@ -212,7 +255,8 @@ body {
 /* ---------- Первый экран ---------- */
 
 .hero {
-    padding: 104px 0 112px;
+    padding: 96px 0 80px;
+    background: var(--surface);
 }
 
 .hero__grid {
@@ -222,31 +266,22 @@ body {
     gap: 64px;
 }
 
-.hero__product {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 28px;
-}
-
+/* Название платформы над заголовком: крупнее заголовка раздела, мельче заголовка первого экрана. */
 .hero__name {
-    color: #fff;
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-}
-
-.hero__tag {
-    margin-inline-end: 0;
-    font-family: var(--ant-font-family-code);
-    font-size: 12px;
+    display: block;
+    margin-bottom: 24px;
+    color: var(--ink);
+    font-size: clamp(34px, 4.4vw, 52px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.01em;
 }
 
 .hero .hero__title {
     max-width: 12em;
-    color: #fff;
+    color: var(--ink);
     font-size: clamp(40px, 6vw, 68px);
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.04;
     letter-spacing: -0.03em;
 }
@@ -266,7 +301,7 @@ body {
 
 @media (max-width: 1023px) {
     .hero {
-        padding: 64px 0 72px;
+        padding: 64px 0 56px;
     }
 
     .hero__grid {
@@ -278,21 +313,14 @@ body {
 /* ---------- Полоса ключевых свойств ---------- */
 
 .facts {
-    border-top: 1px solid var(--ant-color-split);
+    padding: 0 0 var(--section-space);
+    background: var(--surface);
 }
 
 .facts__grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.fact {
-    padding: 32px 28px 36px;
-    border-left: 1px solid var(--ant-color-split);
-}
-
-.fact:last-child {
-    border-right: 1px solid var(--ant-color-split);
+    gap: 40px 48px;
 }
 
 .fact__index {
@@ -306,9 +334,9 @@ body {
 .fact__title {
     display: block;
     margin-bottom: 8px;
-    color: #fff;
+    color: var(--ink);
     font-size: 17px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .fact__text {
@@ -322,28 +350,12 @@ body {
     .facts__grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    .fact:nth-child(2) {
-        border-right: 1px solid var(--ant-color-split);
-    }
-
-    .fact:nth-child(n + 3) {
-        border-top: 1px solid var(--ant-color-split);
-    }
 }
 
 @media (max-width: 599px) {
     .facts__grid {
         grid-template-columns: minmax(0, 1fr);
-    }
-
-    .fact {
-        padding: 24px 20px 28px;
-        border-right: 1px solid var(--ant-color-split);
-    }
-
-    .fact + .fact {
-        border-top: 1px solid var(--ant-color-split);
+        gap: 32px;
     }
 }
 
@@ -353,8 +365,9 @@ body {
     margin-bottom: 48px;
 }
 
+/* Полоса под всем рядом вкладок не нужна: выбранную вкладку показывает её собственная метка. */
 .capabilities .ant-tabs-nav::before {
-    border-bottom-color: var(--ant-color-split);
+    border-bottom: 0;
 }
 
 .capabilities .ant-tabs-tab {
@@ -370,9 +383,9 @@ body {
 
 .capability .capability__title {
     margin: 0;
-    color: #fff;
+    color: var(--ink);
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.3;
 }
 
@@ -392,9 +405,12 @@ body {
 
 /* ---------- Заглушка скриншота ---------- */
 
+/*
+ * Снимок интерфейса остаётся тёмным и в светлом разделе, поэтому его цвета заданы значениями,
+ * а не переменными темы: переменные в светлом разделе переопределены.
+ */
 .screen {
     margin: 0;
-    border: 1px solid var(--ant-color-border);
     border-radius: var(--ant-border-radius);
     background: #0d0d10;
     overflow: hidden;
@@ -407,8 +423,7 @@ body {
     gap: 16px;
     height: 40px;
     padding: 0 16px;
-    border-bottom: 1px solid var(--ant-color-border);
-    color: var(--ant-color-text-tertiary);
+    color: #a1a1aa;
     font-family: var(--ant-font-family-code);
     font-size: 12px;
 }
@@ -421,7 +436,7 @@ body {
 .screen__dots i {
     width: 8px;
     height: 8px;
-    border: 1px solid var(--ant-color-border);
+    background: rgba(244, 244, 245, 0.16);
 }
 
 .screen__body {
@@ -430,8 +445,8 @@ body {
     aspect-ratio: 16 / 10;
     background-color: #0b0b0e;
     background-image:
-        linear-gradient(var(--ant-color-fill-quaternary) 1px, transparent 1px),
-        linear-gradient(90deg, var(--ant-color-fill-quaternary) 1px, transparent 1px);
+        linear-gradient(rgba(244, 244, 245, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(244, 244, 245, 0.04) 1px, transparent 1px);
     background-size: 24px 24px;
     background-position: -1px -1px;
 }
@@ -453,7 +468,7 @@ body {
 }
 
 .screen__label {
-    color: var(--ant-color-text-tertiary);
+    color: #a1a1aa;
     font-family: var(--ant-font-family-code);
     font-size: 12px;
     letter-spacing: 0.08em;
@@ -461,12 +476,12 @@ body {
 }
 
 .screen__caption {
-    color: var(--ant-color-text-secondary);
+    color: #d4d4d8;
     font-size: 16px;
 }
 
 .screen__size {
-    color: var(--ant-color-text-quaternary);
+    color: #71717a;
     font-family: var(--ant-font-family-code);
     font-size: 12px;
 }
@@ -476,7 +491,7 @@ body {
 .control__grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 24px;
+    gap: 20px;
 }
 
 @media (max-width: 1199px) {
@@ -491,8 +506,11 @@ body {
     }
 }
 
+/* Карточку выделяет подложка, а не рамка. */
 .control-card {
     height: 100%;
+    border: 0;
+    background: var(--surface-raised);
 }
 
 .control-card .anticon {
@@ -503,9 +521,9 @@ body {
 .control-card__title {
     display: block;
     margin: 28px 0 12px;
-    color: #fff;
+    color: var(--ink);
     font-size: 19px;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.35;
 }
 
@@ -524,11 +542,6 @@ body {
     gap: 48px;
 }
 
-.mode {
-    padding-top: 28px;
-    border-top: 1px solid var(--ant-color-border);
-}
-
 .mode__kind {
     display: block;
     margin-bottom: 20px;
@@ -540,9 +553,9 @@ body {
 .mode__title {
     display: block;
     margin-bottom: 12px;
-    color: #fff;
+    color: var(--ink);
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .mode__text {
@@ -571,16 +584,20 @@ body {
     margin-bottom: 0;
 }
 
-.faq .ant-collapse {
-    border-top: 1px solid var(--ant-color-split);
-}
-
+/*
+ * Список вопросов — единственное место с линиями: они разделяют соседние вопросы внутри
+ * списка, а не разделы страницы. Верхней и нижней линии у списка нет.
+ */
 .faq .ant-collapse > .ant-collapse-item {
     border-bottom: 1px solid var(--ant-color-split);
 }
 
+.faq .ant-collapse > .ant-collapse-item:last-child {
+    border-bottom: 0;
+}
+
 .faq .ant-collapse-title {
-    color: #fff;
+    color: var(--ink);
     font-size: 19px;
     font-weight: 500;
     line-height: 1.4;
@@ -607,8 +624,8 @@ body {
 /* ---------- Подвал ---------- */
 
 .site-footer {
-    padding: 64px 0 40px;
-    border-top: 1px solid var(--ant-color-split);
+    padding: 80px 0 48px;
+    background: #09090b;
 }
 
 .site-footer__top {
@@ -617,7 +634,7 @@ body {
     align-items: flex-start;
     justify-content: space-between;
     gap: 32px;
-    padding-bottom: 48px;
+    padding-bottom: 56px;
 }
 
 .site-footer__about {
@@ -647,8 +664,6 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 12px 32px;
-    padding-top: 24px;
-    border-top: 1px solid var(--ant-color-split);
     color: var(--ant-color-text-tertiary);
     font-family: var(--ant-font-family-code);
     font-size: 12px;

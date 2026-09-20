@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from 'react';
-import { Button, Tag } from 'antd';
+import { Button } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import { AntdProvider } from '../antd/AntdProvider';
 import { sections, site } from '../data/site';
@@ -32,7 +32,6 @@ export default function Header() {
                     <a className="brand" href="#top" aria-label={`${site.name}: в начало страницы`}>
                         <Mark />
                         <span className="brand__name">{site.name}</span>
-                        <Tag className="brand__tag">{site.tag}</Tag>
                     </a>
                     <nav className="site-nav" aria-label="Разделы страницы">
                         {sections.map((section) => (

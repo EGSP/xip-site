@@ -3,6 +3,8 @@
  * Схема трассировки одного хода: шаги, обращения к модели и вызовы инструментов на общей шкале
  * времени. Иллюстрация, а не данные: длительности подобраны так, чтобы обращение к модели
  * занимало почти весь шаг, а инструменты — доли секунды.
+ *
+ * Рамки и подложки у схемы нет: она лежит прямо на фоне раздела.
  */
 type Kind = 'turn' | 'step' | 'model' | 'tool';
 
@@ -19,7 +21,7 @@ const rows: { label: string; depth: number; kind: Kind; spans: [number, number][
 ];
 
 const width = 560;
-const top = 52;
+const top = 48;
 const rowHeight = 36;
 const footer = 44;
 const height = top + rows.length * rowHeight + footer;
@@ -37,17 +39,15 @@ const tickAnchor = (second: number) => (second === 0 ? 'start' : second === 6 ? 
     role="img"
     aria-label="Схема трассировки хода: три шага, обращения к модели и вызовы инструментов на шкале времени"
 >
-    <rect class="frame" x="0.5" y="0.5" width={width - 1} height={height - 1}></rect>
-    <text class="caption" x="16" y="26">трассировка хода</text>
-    <text class="caption" x={width - 16} y="26" text-anchor="end">3 шага · 6,0 с</text>
-    <line class="rule" x1="0" x2={width} y1="40" y2="40"></line>
+    <text class="caption" x="0" y="20">трассировка хода</text>
+    <text class="caption" x={width} y="20" text-anchor="end">3 шага · 6,0 с</text>
     {seconds.map((second) => <line class="grid" x1={tickX(second)} x2={tickX(second)} y1="40" y2={height - footer}></line>)}
     {
         rows.map((row, index) => {
             const y = top + index * rowHeight;
             return (
                 <g>
-                    <text class:list={['label', `label--${row.kind}`]} x={16 + row.depth * 14} y={y + 22}>
+                    <text class:list={['label', `label--${row.kind}`]} x={row.depth * 14} y={y + 22}>
                         {row.label}
                     </text>
                     {row.spans.map(([from, to]) => (
@@ -57,22 +57,12 @@ const tickAnchor = (second: number) => (second === 0 ? 'start' : second === 6 ? 
             );
         })
     }
-    <line class="rule" x1="0" x2={width} y1={height - footer} y2={height - footer}></line>
     {seconds.map((second) => <text class="tick" x={tickX(second)} y={height - 17} text-anchor={tickAnchor(second)}>{`${second} с`}</text>)}
 </svg>
 
 <style>
-    .frame {
-        fill: #0d0d10;
-        stroke: var(--ant-color-border);
-    }
-
-    .rule {
-        stroke: var(--ant-color-border);
-    }
-
     .grid {
-        stroke: var(--ant-color-fill-tertiary);
+        stroke: rgba(244, 244, 245, 0.07);
     }
 
     .caption,

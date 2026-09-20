@@ -9,7 +9,6 @@ import Header from '../components/Header';
 import HeroArt from '../components/HeroArt.astro';
 import HeroText from '../components/HeroText';
 import Modes from '../components/Modes';
-import SectionDots from '../components/SectionDots.astro';
 import SectionHeading from '../components/SectionHeading';
 import { capabilities, faq, site } from '../data/site';
 
@@ -31,23 +30,23 @@ import { capabilities, faq, site } from '../data/site';
             </div>
         </section>
         <Facts />
-        <section id="capabilities" class="section capabilities">
+        <section id="capabilities" class="section section--light capabilities">
             <div class="container">
                 <SectionHeading eyebrow={capabilities.eyebrow} title={capabilities.title} />
                 <Capabilities client:visible />
             </div>
         </section>
-        <section id="control" class="section">
+        <section id="control" class="section section--dark">
             <div class="container">
                 <Control />
             </div>
         </section>
-        <section id="modes" class="section">
+        <section id="modes" class="section section--light">
             <div class="container">
                 <Modes />
             </div>
         </section>
-        <section id="faq" class="section faq">
+        <section id="faq" class="section section--dark faq">
             <div class="container faq__grid">
                 <SectionHeading eyebrow={faq.eyebrow} title={faq.title} />
                 <Faq client:visible />
@@ -55,5 +54,4 @@ import { capabilities, faq, site } from '../data/site';
         </section>
     </main>
     <Footer />
-    <SectionDots />
 </Base>
