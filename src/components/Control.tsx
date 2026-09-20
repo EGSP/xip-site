@@ -21,7 +21,7 @@ const icons: Record<(typeof control.items)[number]['icon'], ReactNode> = {
 export default function Control() {
     return (
         <AntdProvider>
-            <SectionHead eyebrow={control.eyebrow} title={control.title} />
+            <SectionHead title={control.title} />
             <div className="control__grid">
                 {control.items.map((item) => (
                     <Card key={item.icon} className="control-card" variant="borderless">

@@ -78,18 +78,6 @@ body {
     font-family: var(--ant-font-family-code);
 }
 
-/* Метка над заголовком раздела и подписи в моноширинном начертании. */
-.eyebrow {
-    display: block;
-    margin-bottom: 20px;
-    color: var(--ant-color-text-tertiary);
-    font-family: var(--ant-font-family-code);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
 /* ---------- Разделы ---------- */
 
 .section {
@@ -114,8 +102,8 @@ body {
  */
 .section--light,
 .section--light .xip-theme {
-    --surface: #ffffff;
-    --surface-raised: #f4f4f5;
+    --surface: #f4f4f4;
+    --surface-raised: #ffffff;
     --ink: #09090b;
 
     --ant-color-text: #18181b;
@@ -126,6 +114,7 @@ body {
     --ant-color-text-heading: #09090b;
     --ant-color-bg-container: #ffffff;
     --ant-color-bg-elevated: #ffffff;
+    --ant-color-border: #dcdcdf;
     --ant-color-border: #e4e4e7;
     --ant-color-border-secondary: #e4e4e7;
     --ant-color-split: #e4e4e7;
@@ -259,13 +248,6 @@ body {
     background: var(--surface);
 }
 
-.hero__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    align-items: center;
-    gap: 64px;
-}
-
 /* Название платформы над заголовком: крупнее заголовка раздела, мельче заголовка первого экрана. */
 .hero__name {
     display: block;
@@ -294,19 +276,9 @@ body {
     line-height: 1.6;
 }
 
-.hero__art {
-    width: 100%;
-    height: auto;
-}
-
 @media (max-width: 1023px) {
     .hero {
         padding: 64px 0 56px;
-    }
-
-    .hero__grid {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 56px;
     }
 }
 
@@ -567,55 +539,6 @@ body {
 
 @media (max-width: 899px) {
     .modes__grid {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 40px;
-    }
-}
-
-/* ---------- Вопросы ---------- */
-
-.faq__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: 56px;
-}
-
-.faq__grid .section-head {
-    margin-bottom: 0;
-}
-
-/*
- * Список вопросов — единственное место с линиями: они разделяют соседние вопросы внутри
- * списка, а не разделы страницы. Верхней и нижней линии у списка нет.
- */
-.faq .ant-collapse > .ant-collapse-item {
-    border-bottom: 1px solid var(--ant-color-split);
-}
-
-.faq .ant-collapse > .ant-collapse-item:last-child {
-    border-bottom: 0;
-}
-
-.faq .ant-collapse-title {
-    color: var(--ink);
-    font-size: 19px;
-    font-weight: 500;
-    line-height: 1.4;
-}
-
-.faq .ant-collapse-expand-icon {
-    color: var(--ant-color-text-tertiary);
-}
-
-.faq__answer {
-    margin: 0;
-    color: var(--ant-color-text-secondary);
-    font-size: 16px;
-    line-height: 1.7;
-}
-
-@media (max-width: 1023px) {
-    .faq__grid {
         grid-template-columns: minmax(0, 1fr);
         gap: 40px;
     }

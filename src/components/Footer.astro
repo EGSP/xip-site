@@ -1,5 +1,4 @@
 ---
-import { Mark } from './Mark';
 import { footer, sections, site } from '../data/site';
 ---
 
@@ -8,7 +7,6 @@ import { footer, sections, site } from '../data/site';
         <div class="site-footer__top">
             <div>
                 <a class="brand" href="#top" aria-label={`${site.name}: в начало страницы`}>
-                    <Mark />
                     <span class="brand__name">{site.name}</span>
                 </a>
                 <p class="site-footer__about">{footer.about}</p>

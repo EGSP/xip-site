@@ -6,7 +6,7 @@ import { SectionHead } from './SectionHead';
 export default function Modes() {
     return (
         <AntdProvider>
-            <SectionHead eyebrow={modes.eyebrow} title={modes.title} lead={modes.lead} />
+            <SectionHead title={modes.title} lead={modes.lead} />
             <div className="modes__grid">
                 {modes.items.map((item, index) => (
                     <div key={item.kind} className="mode">

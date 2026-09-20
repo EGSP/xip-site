@@ -3,7 +3,6 @@ import { Button } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import { AntdProvider } from '../antd/AntdProvider';
 import { sections, site } from '../data/site';
-import { Mark } from './Mark';
 
 // Панель загружается отдельным фрагментом при первом открытии меню.
 const MobileMenu = lazy(() => import('./MobileMenu'));
@@ -30,7 +29,6 @@ export default function Header() {
             <header className="site-header">
                 <div className="container site-header__inner">
                     <a className="brand" href="#top" aria-label={`${site.name}: в начало страницы`}>
-                        <Mark />
                         <span className="brand__name">{site.name}</span>
                     </a>
                     <nav className="site-nav" aria-label="Разделы страницы">

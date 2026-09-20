@@ -3,18 +3,16 @@ import Base from '../layouts/Base.astro';
 import Capabilities from '../components/Capabilities';
 import Control from '../components/Control';
 import Facts from '../components/Facts.astro';
-import Faq from '../components/Faq';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header';
-import HeroArt from '../components/HeroArt.astro';
 import HeroText from '../components/HeroText';
 import Modes from '../components/Modes';
 import SectionHeading from '../components/SectionHeading';
-import { capabilities, faq, site } from '../data/site';
+import { capabilities, site } from '../data/site';
 
 /*
- * Скрипт получают только три компонента: шапка (на узком экране — боковое меню), вкладки
- * возможностей и список вопросов. Остальное — разметка, отрисованная при сборке.
+ * Скрипт получают только два компонента: шапка (на узком экране — боковое меню) и вкладки
+ * возможностей. Остальное — разметка, отрисованная при сборке.
  */
 ---
 
@@ -22,17 +20,14 @@ import { capabilities, faq, site } from '../data/site';
     <Header client:media="(max-width: 899px)" />
     <main>
         <section id="top" class="hero">
-            <div class="container hero__grid">
-                <div>
-                    <HeroText />
-                </div>
-                <HeroArt />
+            <div class="container">
+                <HeroText />
             </div>
         </section>
         <Facts />
         <section id="capabilities" class="section section--light capabilities">
             <div class="container">
-                <SectionHeading eyebrow={capabilities.eyebrow} title={capabilities.title} />
+                <SectionHeading title={capabilities.title} />
                 <Capabilities client:visible />
             </div>
         </section>
@@ -44,12 +39,6 @@ import { capabilities, faq, site } from '../data/site';
         <section id="modes" class="section section--light">
             <div class="container">
                 <Modes />
-            </div>
-        </section>
-        <section id="faq" class="section section--dark faq">
-            <div class="container faq__grid">
-                <SectionHeading eyebrow={faq.eyebrow} title={faq.title} />
-                <Faq client:visible />
             </div>
         </section>
     </main>
