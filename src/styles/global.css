@@ -27,7 +27,7 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height);
-    background: #09090b;
+    background: #19191c;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -51,8 +51,8 @@ body {
     text-rendering: optimizeLegibility;
 
     /* Подложка раздела и цвет заголовков; значения по умолчанию — тёмные. */
-    --surface: #09090b;
-    --surface-raised: #141418;
+    --surface: #19191c;
+    --surface-raised: #232327;
     --ink: #ffffff;
 }
 
@@ -98,8 +98,8 @@ body {
 }
 
 .section--dark {
-    --surface: #09090b;
-    --surface-raised: #141418;
+    --surface: #19191c;
+    --surface-raised: #232327;
     --ink: #ffffff;
 }
 
@@ -177,7 +177,7 @@ body {
     top: 0;
     z-index: 100;
     height: var(--header-height);
-    background: rgba(9, 9, 11, 0.86);
+    background: rgba(25, 25, 28, 0.86);
     backdrop-filter: saturate(140%) blur(12px);
     -webkit-backdrop-filter: saturate(140%) blur(12px);
 }
@@ -412,7 +412,7 @@ body {
 .screen {
     margin: 0;
     border-radius: var(--ant-border-radius);
-    background: #0d0d10;
+    background: #0e0e11;
     overflow: hidden;
 }
 
@@ -443,7 +443,7 @@ body {
     display: grid;
     place-items: center;
     aspect-ratio: 16 / 10;
-    background-color: #0b0b0e;
+    background-color: #0c0c0f;
     background-image:
         linear-gradient(rgba(244, 244, 245, 0.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(244, 244, 245, 0.04) 1px, transparent 1px);
@@ -625,7 +625,7 @@ body {
 
 .site-footer {
     padding: 80px 0 48px;
-    background: #09090b;
+    background: #19191c;
 }
 
 .site-footer__top {

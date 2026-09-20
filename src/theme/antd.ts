@@ -5,7 +5,7 @@ const fontFamily =
 const fontFamilyCode = '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
 
 const accent = '#4d7cff';
-const border = '#26262b';
+const border = '#303036';
 
 /**
  * Тема Ant Design — единственный источник цветов, шрифтов и радиусов сайта.
@@ -25,7 +25,7 @@ export const antdTheme: ThemeConfig = {
         colorPrimary: accent,
         colorInfo: accent,
         colorLink: '#8aa8ff',
-        colorBgBase: '#09090b',
+        colorBgBase: '#19191c',
         colorTextBase: '#f4f4f5',
         colorBorder: '#34343a',
         colorBorderSecondary: border,
@@ -72,7 +72,7 @@ export const antdTheme: ThemeConfig = {
             defaultBg: 'transparent',
         },
         Drawer: {
-            colorBgElevated: '#09090b',
+            colorBgElevated: '#19191c',
         },
     },
 };
